@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\Config\ConfirmController;
+use App\Http\Controllers\Api\Config\EmailController;
+use App\Http\Controllers\Api\Config\SmsController;
+use App\Http\Controllers\Api\Config\TelegramController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('config/change')->name('config.change.')->middleware('auth:api')->group(function () {
+    Route::post('/request/sms', [SmsController::class, 'request'])->name('sms.request');
+    Route::post('/request/email', [EmailController::class, 'request'])->name('email.request');
+    Route::post('/request/telegram', [TelegramController::class, 'request'])->name('telegram.request');
+    Route::post('/confirm', [ConfirmController::class, 'confirm'])->name('confirm');
 });
